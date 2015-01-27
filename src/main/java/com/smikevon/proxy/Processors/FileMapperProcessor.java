@@ -19,7 +19,8 @@ public class FileMapperProcessor implements MethodInterceptor{
         Enhancer enhancer = new Enhancer();
         enhancer.setCallback(this);
         enhancer.setSuperclass(clazz);
-        return enhancer.create();
+        Object obj = enhancer.create();
+        return obj;
     }
 
 

@@ -15,6 +15,7 @@ public class FileService {
     public FileMapper fileMapper;
 
     public void read(){
+        System.out.println("hello world");
         String txt = fileMapper.read(file);
         System.out.println("message:"+txt);
     }

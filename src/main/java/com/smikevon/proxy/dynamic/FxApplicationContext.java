@@ -56,7 +56,7 @@ public class FxApplicationContext {
                         if(beans == null){
                             beans = new HashMap<String, Object>();
                         }
-                        beans.put(key, processor.bind(clazz.newInstance()));
+                        beans.put(key, processor.bind(clazz));
                         context.put(FxService.class,beans);
                     }
                     
@@ -64,11 +64,8 @@ public class FxApplicationContext {
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
         }
+
     }
     
     public static Map<Class,Map<String,Object>> getContext(){
