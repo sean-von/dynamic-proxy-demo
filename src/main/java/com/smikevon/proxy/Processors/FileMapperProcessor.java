@@ -6,7 +6,6 @@ import net.sf.cglib.proxy.MethodProxy;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.lang.reflect.Method;
 
@@ -39,7 +38,6 @@ public class FileMapperProcessor implements MethodInterceptor{
                 }
             }
         }
-
         return sb.toString();
     }
 }

@@ -1,18 +1,13 @@
 package com.smikevon.proxy.Processors;
 
-import com.smikevon.proxy.annotations.FxMapper;
 import com.smikevon.proxy.annotations.FxResource;
-import com.smikevon.proxy.common.Constant;
-import com.smikevon.proxy.dynamic.FileMapper;
-import com.smikevon.proxy.dynamic.FileService;
+import com.smikevon.proxy.dynamic.FxApplicationContext;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Map;
 
 /**
  * Created by fengxiao on 15-1-27.
@@ -26,7 +21,7 @@ public class FileServiceProcessor implements MethodInterceptor{
             target = clazz.newInstance();
             
             Enhancer enhancer = new Enhancer();
-            enhancer.setSuperclass(FileService.class);
+            enhancer.setSuperclass(clazz);
             enhancer.setCallback(this);
             Object obj = enhancer.create();
     
@@ -35,10 +30,10 @@ public class FileServiceProcessor implements MethodInterceptor{
             for(Field field : fields){
                 if (field.getAnnotation(FxResource.class)!=null){
                     String value = field.getAnnotation(FxResource.class).value();
-                    Class<?> fieldClazz = field.getType();
-                    Map<String,Object> beans = Constant.getApplicationContext().get(FxMapper.class);
-                    Object object = beans.get(value);
-                    ((FileService)target).fileMapper = (FileMapper)object;
+                    Object object = FxApplicationContext.getInstance().getBean(value);
+                    //看到没下面这行代码和注释掉的代码效果是一样的,反射的强大之处
+                    field.set(target,object);
+                    //((FileService)target).fileMapper = (FileMapper)object;
                 }
             }
             return obj;
